@@ -8,6 +8,9 @@
         :root {
             --primary: #0056b3; --success: #28a745; --danger: #c92a2a;
             --bg: #f0f2f5; --card-bg: #ffffff; --border: #dee2e6; --text: #333;
+            /* 数量ボタン用カラー */
+            --qty-plus-bg: #e0f2fe;
+            --qty-minus-bg: #fee2e2;
             /* 部署別カラー */
             --color-endo: #fce7f3; --color-op: #e0f2fe; --color-dent: #f3e8ff;
             --color-gyn: #fef08a; --color-derma: #dcfce7; --color-surg: #ffedd5;
@@ -16,59 +19,84 @@
         }
 
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
             background-color: var(--bg); color: var(--text); margin: 0;
             display: flex; flex-direction: column; height: 100vh; overflow: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
         header {
             background-color: var(--primary); color: white; padding: 0 20px;
             display: flex; justify-content: space-between; align-items: center;
-            height: 45px; flex-shrink: 0;
+            height: 55px; flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+
+        .header-controls { display: flex; align-items: center; gap: 20px; }
+        .today-badge { background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 4px; font-weight: bold; font-size: 0.9rem; }
+        .month-picker-container { display: flex; align-items: center; gap: 8px; }
+        #view-month-picker { padding: 5px; border-radius: 4px; border: 1px solid white; font-size: 0.9rem; cursor: pointer; font-weight: bold; }
+        
+        /* 表示データ消去ボタン */
+        .reset-btn { 
+            background-color: var(--danger); color: white; border: 1px solid rgba(255,255,255,0.3); 
+            padding: 6px 10px; border-radius: 4px; cursor: pointer; 
+            font-weight: bold; font-size: 0.75rem; 
         }
 
         main { display: flex; flex: 1; padding: 10px; gap: 10px; overflow: hidden; }
 
+        /* 左側：入力セクション（フォントを太く強調） */
         .input-section {
             flex: 0 0 420px; background: var(--card-bg); border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             display: flex; flex-direction: column; padding: 12px; overflow-y: auto;
+            font-weight: 600; /* 全体的に太めに */
         }
 
         .display-section { flex: 1; display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
 
         .sub-section {
-            height: 50%; background: var(--card-bg); border-radius: 8px; padding: 12px;
+            flex: 1; background: var(--card-bg); border-radius: 8px; padding: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             display: flex; flex-direction: column; overflow: hidden;
         }
 
-        h2 { font-size: 0.85rem; margin: 0 0 8px 0; border-left: 4px solid var(--primary); padding-left: 8px; }
+        h2 { font-size: 0.9rem; margin: 0 0 8px 0; border-left: 5px solid var(--primary); padding-left: 8px; font-weight: bold; }
 
-        .control-group { margin-bottom: 8px; }
-        .label { font-weight: bold; margin-bottom: 4px; display: block; font-size: 0.75rem; }
+        .control-group { margin-bottom: 10px; }
+        .label { font-weight: 800; margin-bottom: 5px; display: block; font-size: 0.85rem; color: #111; }
 
         .btn-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
-        .btn { padding: 8px 2px; border: 1px solid var(--border); border-radius: 4px; background: #fff; cursor: pointer; font-size: 0.75rem; transition: 0.2s; }
-        .btn.active { background: var(--primary) !important; color: white !important; font-weight: bold; }
+        .btn { 
+            padding: 10px 2px; border: 1px solid var(--border); border-radius: 4px; 
+            background: #fff; cursor: pointer; font-size: 0.85rem; font-weight: 700; transition: 0.1s; 
+        }
+        .btn.active { background: var(--primary) !important; color: white !important; border-color: var(--primary); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
 
         .btn-type[data-val="払出"].active { background: var(--danger) !important; border-color: var(--danger); }
         .btn-type[data-val="回収"].active { background: var(--success) !important; border-color: var(--success); }
 
-        .qty-area { background: #f8f9fa; border: 1px solid var(--border); border-radius: 6px; padding: 8px; }
+        /* 数量調整ボタン */
+        .qty-area { background: #f8f9fa; border: 1px solid var(--border); border-radius: 6px; padding: 10px; }
         .qty-box {
-            background: white; border: 2px solid var(--primary); border-radius: 6px;
-            width: 80px; margin: 0 auto 8px; padding: 4px;
-            text-align: center; font-size: 1.6rem; font-weight: bold; color: var(--primary);
+            background: white; border: 3px solid var(--primary); border-radius: 6px;
+            width: 90px; margin: 0 auto 10px; padding: 6px;
+            text-align: center; font-size: 2.2rem; font-weight: 900; color: var(--primary);
         }
-        .qty-controls-horiz { display: flex; justify-content: space-around; gap: 6px; }
-        .qty-unit-col { display: flex; flex-direction: column; align-items: center; gap: 3px; flex: 1; }
-        .unit-label { font-size: 0.7rem; color: #666; font-weight: bold; }
-        .qty-btn-row { display: flex; gap: 2px; width: 100%; }
+        .qty-controls-horiz { display: flex; justify-content: space-around; gap: 8px; }
+        .qty-unit-col { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
+        .unit-label { font-size: 0.85rem; color: #333; font-weight: bold; }
+        .qty-btn-row { display: flex; gap: 4px; width: 100%; }
+        
         .qty-unit-btn {
-            flex: 1; padding: 6px 0; border: 1px solid #ced4da; border-radius: 4px;
-            background: white; cursor: pointer; font-weight: bold; font-size: 0.85rem;
+            flex: 1; padding: 15px 0; border: 1px solid #999; border-radius: 6px;
+            cursor: pointer; font-weight: 900; font-size: 1.3rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: 0.1s;
         }
+        .btn-plus { background-color: var(--qty-plus-bg); color: #0369a1; border-color: #7dd3fc; }
+        .btn-minus { background-color: var(--qty-minus-bg); color: #991b1b; border-color: #fca5a5; }
+        .qty-unit-btn:active { transform: translateY(2px); box-shadow: none; }
 
         /* 部署カラー設定 */
         .btn-dept[data-val="内視鏡室"] { background-color: var(--color-endo); }
@@ -82,97 +110,81 @@
         .btn-dept[data-val="放射線"] { background-color: var(--color-radio); }
         .btn-dept[data-val="周産期C"] { background-color: var(--color-peri); }
         .btn-dept[data-val="眼科"] { background-color: var(--color-oph); }
-        .btn-dept[data-val="病棟"] { background-color: var(--color-ward); border: 1px dashed #999; }
+        .btn-dept[data-val="病棟"] { background-color: var(--color-ward); border: 1.5px dashed #666; }
 
-        #ward-sub-panel { display: none; background: #fff; padding: 6px; border: 1px solid var(--primary); border-radius: 4px; margin-top: 4px; }
-
-        .register-btn { background: var(--primary); color: white; border: none; padding: 12px; font-size: 1rem; font-weight: bold; border-radius: 4px; cursor: pointer; margin-top: 10px; flex-shrink: 0; }
+        #ward-sub-panel { display: none; background: #fff; padding: 8px; border: 2px solid var(--primary); border-radius: 4px; margin-top: 5px; }
+        .register-btn { background: var(--primary); color: white; border: none; padding: 16px; font-size: 1.2rem; font-weight: 900; border-radius: 4px; cursor: pointer; margin-top: 10px; letter-spacing: 2px; }
         .register-btn:hover { background: #004494; }
 
+        /* 右側テーブル */
         .scroll-wrap { flex: 1; overflow-y: auto; border: 1px solid var(--border); border-radius: 4px; background: #fff; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
-        th { position: sticky; top: 0; background: #f8f9fa; border-bottom: 2px solid var(--border); padding: 6px; text-align: left; z-index: 5; }
-        td { padding: 4px 6px; border-bottom: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th { position: sticky; top: 0; background: #f8f9fa; border-bottom: 2px solid var(--border); padding: 8px; text-align: left; z-index: 5; font-weight: bold; }
+        td { padding: 6px 8px; border-bottom: 1px solid var(--border); }
 
-        .summary-table th { background: #e9ecef; text-align: center; font-size: 0.65rem; }
-        .summary-table td { text-align: center; font-size: 0.7rem; }
+        .summary-table th { background: #e9ecef; text-align: center; }
+        .summary-table td { text-align: center; font-weight: 500; }
         .total-row { background: #f1f3f5; font-weight: bold; }
         .val-in { color: var(--success); font-weight: bold; }
         .val-out { color: var(--danger); font-weight: bold; }
-        .btn-del { color: var(--danger); border: none; background: none; cursor: pointer; text-decoration: underline; font-size: 0.65rem; }
+        .btn-del { color: var(--danger); border: none; background: none; cursor: pointer; text-decoration: underline; font-size: 0.75rem; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <header>
     <h1>ホルマリン入出庫管理</h1>
-    <div style="font-size: 0.8rem;">本日：<span id="today-count">0</span> 件</div>
+    <div class="header-controls">
+        <div class="today-badge">本日入力：<span id="today-count">0</span> 件</div>
+        <div class="month-picker-container">
+            <span style="font-size: 0.8rem; font-weight: bold;">表示月：</span>
+            <input type="month" id="view-month-picker" onchange="changeViewMonth(this.value)">
+        </div>
+        <button class="reset-btn" onclick="displayDataReset()">表示データ消去</button>
+    </div>
 </header>
 
 <main>
     <section class="input-section">
         <div class="control-group">
-            <span class="label">日付</span>
-            <input type="date" id="input-date" style="width: 100%; padding: 4px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem;">
+            <span class="label">🗓 日付</span>
+            <input type="date" id="input-date" style="width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 4px; font-size: 1rem; font-weight: bold;">
         </div>
-
         <div class="control-group">
-            <span class="label">区分</span>
+            <span class="label">🔄 区分</span>
             <div class="btn-grid" style="grid-template-columns: 1fr 1fr;">
                 <button class="btn btn-type active" data-val="回収">回収</button>
                 <button class="btn btn-type" data-val="払出">払出</button>
             </div>
         </div>
-
         <div class="control-group">
-            <span class="label">部署</span>
+            <span class="label">🏥 部署</span>
             <div class="btn-grid" id="dept-selector"></div>
             <div id="ward-sub-panel">
                 <div class="btn-grid" id="ward-list"></div>
             </div>
         </div>
-
         <div class="control-group">
-            <span class="label">品目</span>
+            <span class="label">🧪 品目</span>
             <div class="btn-grid" id="item-selector"></div>
         </div>
-
         <div class="control-group">
-            <span class="label">数量調整（初期値: 0）</span>
+            <span class="label">🔢 数量調整</span>
             <div class="qty-area">
                 <div class="qty-box" id="qty-display">0</div>
                 <div class="qty-controls-horiz">
-                    <div class="qty-unit-col">
-                        <span class="unit-label">1</span>
-                        <div class="qty-btn-row">
-                            <button class="qty-unit-btn" onclick="adjustQty(-1)">－</button>
-                            <button class="qty-unit-btn" onclick="adjustQty(1)">＋</button>
-                        </div>
-                    </div>
-                    <div class="qty-unit-col">
-                        <span class="unit-label">10</span>
-                        <div class="qty-btn-row">
-                            <button class="qty-unit-btn" onclick="adjustQty(-10)">－</button>
-                            <button class="qty-unit-btn" onclick="adjustQty(10)">＋</button>
-                        </div>
-                    </div>
-                    <div class="qty-unit-col">
-                        <span class="unit-label">100</span>
-                        <div class="qty-btn-row">
-                            <button class="qty-unit-btn" onclick="adjustQty(-100)">－</button>
-                            <button class="qty-unit-btn" onclick="adjustQty(100)">＋</button>
-                        </div>
-                    </div>
+                    <div class="qty-unit-col"><span class="unit-label">1</span><div class="qty-btn-row"><button class="qty-unit-btn btn-minus" onclick="adjustQty(-1)">－</button><button class="qty-unit-btn btn-plus" onclick="adjustQty(1)">＋</button></div></div>
+                    <div class="qty-unit-col"><span class="unit-label">10</span><div class="qty-btn-row"><button class="qty-unit-btn btn-minus" onclick="adjustQty(-10)">－</button><button class="qty-unit-btn btn-plus" onclick="adjustQty(10)">＋</button></div></div>
+                    <div class="qty-unit-col"><span class="unit-label">100</span><div class="qty-btn-row"><button class="qty-unit-btn btn-minus" onclick="adjustQty(-100)">－</button><button class="qty-unit-btn btn-plus" onclick="adjustQty(100)">＋</button></div></div>
                 </div>
             </div>
         </div>
-
         <button class="register-btn" onclick="saveEntry()">データを登録する</button>
     </section>
 
     <div class="display-section">
         <div class="sub-section">
-            <h2>入力履歴 (最新50件)</h2>
+            <h2 id="history-label">履歴</h2>
             <div class="scroll-wrap">
                 <table>
                     <thead><tr><th>日付</th><th>部署</th><th>品目</th><th>区分</th><th>数</th><th></th></tr></thead>
@@ -180,11 +192,10 @@
                 </table>
             </div>
         </div>
-
         <div class="sub-section">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-                <h2 style="margin:0;">今月の集計進捗</h2>
-                <button onclick="exportToCSV()" style="background:var(--success); color:white; border:none; padding:4px 10px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.7rem;">CSV出力 📊</button>
+                <h2 id="summary-label" style="margin:0;">集計進捗</h2>
+                <button onclick="exportToCSV()" style="background:var(--success); color:white; border:none; padding:8px 16px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.8rem;">CSV出力 📊</button>
             </div>
             <div class="scroll-wrap">
                 <table class="summary-table">
@@ -193,9 +204,7 @@
                             <th rowspan="2">部署名</th>
                             <th colspan="2">生検</th><th colspan="2">小</th><th colspan="2">中</th><th colspan="2">大</th><th colspan="2">1000</th>
                         </tr>
-                        <tr>
-                            <th>回</th><th>払</th><th>回</th><th>払</th><th>回</th><th>払</th><th>回</th><th>払</th><th>回</th><th>払</th>
-                        </tr>
+                        <tr><th>回</th><th>払</th><th>回</th><th>払</th><th>回</th><th>払</th><th>回</th><th>払</th><th>回</th><th>払</th></tr>
                     </thead>
                     <tbody id="summary-body"></tbody>
                     <tfoot id="summary-footer"></tfoot>
@@ -210,179 +219,135 @@
         depts: ['内視鏡室', '手術室', '歯科', '婦人科', '皮膚科', '外科', '形成外科', '耳鼻科', '放射線', '周産期C', '眼科', '病棟'],
         wards: ['南3', '南4', '脊椎センター', '南6', 'NICU', '東3', '人工関節センター', '東5', '中4', '中5'],
         items: ['生検', '小', '中', '大', '1000ml', 'キャッチホルム'],
-        storageKey: 'formalin_v9_pc_final'
+        storageKey: 'formalin_v16_final_pc'
     };
 
-    let state = { date: '', type: '回収', dept: '', subDept: '', item: '', qty: 0 };
+    let state = { date: '', type: '回収', dept: '', subDept: '', item: '', qty: 0, viewMonth: '' };
 
     window.onload = () => {
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('input-date').value = today;
-        state.date = today;
-        initUI();
-        refresh();
+        const now = new Date();
+        const todayStr = now.toISOString().split('T')[0];
+        document.getElementById('input-date').value = todayStr;
+        document.getElementById('view-month-picker').value = todayStr.slice(0, 7);
+        state.date = todayStr;
+        state.viewMonth = todayStr.slice(0, 7);
+        initUI(); refresh();
     };
 
     function initUI() {
         const dDiv = document.getElementById('dept-selector');
         CONFIG.depts.forEach(d => {
-            const b = document.createElement('button');
-            b.className = 'btn btn-dept'; b.innerText = d; b.dataset.val = d;
-            b.id = d === '病棟' ? 'btn-ward-main' : ''; // 病棟ボタンにID付与
+            const b = document.createElement('button'); b.className = 'btn btn-dept'; b.innerText = d; b.dataset.val = d; b.id = d === '病棟' ? 'btn-ward-main' : '';
             b.onclick = () => {
-                state.dept = d; state.subDept = '';
-                // 部署が変わったら「病棟」ボタンの表示をリセット
-                document.getElementById('btn-ward-main').innerText = '病棟';
+                state.dept = d; state.subDept = ''; document.getElementById('btn-ward-main').innerText = '病棟';
                 document.querySelectorAll('.btn-dept').forEach(btn => btn.classList.toggle('active', btn.dataset.val === d));
                 document.getElementById('ward-sub-panel').style.display = (d === '病棟' ? 'block' : 'none');
             };
             dDiv.appendChild(b);
         });
-
         const wDiv = document.getElementById('ward-list');
         CONFIG.wards.forEach(w => {
             const b = document.createElement('button'); b.className = 'btn'; b.innerText = w;
             b.onclick = () => {
-                state.subDept = w;
-                // ★選択後にメインボタンの表示を更新
-                const mainWardBtn = document.getElementById('btn-ward-main');
-                mainWardBtn.innerText = `病棟(${w})`;
-                mainWardBtn.classList.add('active'); // 親ボタンをアクティブに
-                
+                state.subDept = w; const m = document.getElementById('btn-ward-main'); m.innerText = `病棟(${w})`; m.classList.add('active');
                 document.getElementById('ward-sub-panel').style.display = 'none';
-                Array.from(wDiv.children).forEach(btn => btn.classList.toggle('active', btn.innerText === w));
             };
             wDiv.appendChild(b);
         });
-
         const iDiv = document.getElementById('item-selector');
         CONFIG.items.forEach(i => {
             const b = document.createElement('button'); b.className = 'btn btn-item'; b.innerText = i; b.dataset.val = i;
-            b.onclick = () => {
-                state.item = i;
-                document.querySelectorAll('.btn-item').forEach(btn => btn.classList.toggle('active', btn.dataset.val === i));
-            };
+            b.onclick = () => { state.item = i; document.querySelectorAll('.btn-item').forEach(btn => btn.classList.toggle('active', btn.dataset.val === i)); };
             iDiv.appendChild(b);
         });
-
         document.querySelectorAll('.btn-type').forEach(b => {
-            b.onclick = () => {
-                state.type = b.dataset.val;
-                document.querySelectorAll('.btn-type').forEach(btn => btn.classList.toggle('active', btn.dataset.val === b.dataset.val));
-            };
+            b.onclick = () => { state.type = b.dataset.val; document.querySelectorAll('.btn-type').forEach(btn => btn.classList.toggle('active', btn.dataset.val === b.dataset.val)); };
         });
         document.getElementById('input-date').onchange = (e) => state.date = e.target.value;
     }
 
-    function adjustQty(n) {
-        state.qty = Math.max(0, state.qty + n);
-        document.getElementById('qty-display').innerText = state.qty;
-    }
+    function adjustQty(n) { state.qty = Math.max(0, state.qty + n); document.getElementById('qty-display').innerText = state.qty; }
+    function changeViewMonth(val) { state.viewMonth = val; refresh(); }
 
     function saveEntry() {
-        if (!state.dept || !state.item) return alert('部署と品目を選択してください');
+        if (!state.dept || !state.item || state.qty === 0) return alert('入力内容を確認してください');
         if (state.dept === '病棟' && !state.subDept) return alert('病棟名を選択してください');
-        if (state.qty === 0) return alert('個数を選択してください');
-
         const data = JSON.parse(localStorage.getItem(CONFIG.storageKey) || '[]');
-        data.push({
-            id: Date.now(),
-            date: state.date,
-            dept: state.dept === '病棟' ? `病棟(${state.subDept})` : state.dept,
-            item: state.item,
-            type: state.type,
-            qty: state.qty
-        });
+        data.push({ id: Date.now(), date: state.date, dept: state.dept === '病棟' ? `病棟(${state.subDept})` : state.dept, item: state.item, type: state.type, qty: state.qty });
         localStorage.setItem(CONFIG.storageKey, JSON.stringify(data));
-        
-        // ★リセット処理
-        state.qty = 0;
-        document.getElementById('qty-display').innerText = 0;
-        
-        // 病棟ボタンの表示と選択を初期化
-        document.getElementById('btn-ward-main').innerText = '病棟';
-        document.querySelectorAll('.btn-dept, .btn-item').forEach(btn => btn.classList.remove('active'));
-        state.dept = '';
-        state.subDept = '';
-        state.item = '';
-        
-        refresh();
+        state.qty = 0; document.getElementById('qty-display').innerText = 0; document.getElementById('btn-ward-main').innerText = '病棟';
+        document.querySelectorAll('.btn-dept, .btn-item').forEach(b => b.classList.remove('active'));
+        state.dept = ''; state.subDept = ''; state.item = ''; refresh();
     }
 
     function refresh() {
         const data = JSON.parse(localStorage.getItem(CONFIG.storageKey) || '[]');
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('today-count').innerText = data.filter(d => d.date === today).length;
+        const todayStr = new Date().toISOString().split('T')[0];
+        document.getElementById('today-count').innerText = data.filter(d => d.date === todayStr).length;
+        document.getElementById('history-label').innerText = `${state.viewMonth} の履歴`;
+        document.getElementById('summary-label').innerText = `${state.viewMonth} の集計`;
 
-        const hBody = document.getElementById('history-body');
-        hBody.innerHTML = '';
-        data.slice().reverse().slice(0, 50).forEach(r => {
+        const monthData = data.filter(d => d.date.startsWith(state.viewMonth));
+        const hBody = document.getElementById('history-body'); hBody.innerHTML = '';
+        monthData.slice().reverse().forEach(r => {
             const tr = document.createElement('tr');
-            tr.innerHTML = `<td>${r.date.slice(5)}</td><td>${r.dept}</td><td>${r.item}</td><td style="font-weight:bold; color:${r.type==='回収'?'var(--success)':'var(--primary)'}">${r.type}</td><td>${r.qty}</td><td><button class="btn-del" onclick="deleteRec(${r.id})">削除</button></td>`;
+            tr.innerHTML = `<td>${r.date.slice(8)}日</td><td>${r.dept}</td><td>${r.item}</td><td style="font-weight:bold; color:${r.type==='回収'?'var(--success)':'var(--danger)'}">${r.type}</td><td>${r.qty}</td><td><button class="btn-del" onclick="deleteRec(${r.id})">削除</button></td>`;
             hBody.appendChild(tr);
         });
 
-        const sBody = document.getElementById('summary-body');
-        const sFooter = document.getElementById('summary-footer');
-        sBody.innerHTML = '';
-        sFooter.innerHTML = '';
-        const currentMonth = state.date.slice(0, 7);
-        const monthData = data.filter(d => d.date.startsWith(currentMonth));
+        const sBody = document.getElementById('summary-body'); const sFooter = document.getElementById('summary-footer');
+        sBody.innerHTML = ''; sFooter.innerHTML = '';
+        const totals = { '生検': {回:0, 払:0}, '小': {回:0, 払:0}, '中': {回:0, 払:0}, '大': {回:0, 払:0}, '1000ml': {回:0, 払:0} };
 
-        const grandTotals = {
-            '生検': {回:0, 払:0}, '小': {回:0, 払:0}, '中': {回:0, 払:0}, '大': {回:0, 払:0}, '1000ml': {回:0, 払:0}
-        };
-
-        CONFIG.depts.forEach(masterDept => {
-            const targetNames = (masterDept === '病棟') 
-                ? [...new Set(monthData.map(d => d.dept))].filter(n => n.startsWith('病棟('))
-                : [masterDept];
-
-            targetNames.forEach(deptName => {
-                const tr = document.createElement('tr');
-                let html = `<td style="text-align:left; font-weight:bold;">${deptName}</td>`;
+        CONFIG.depts.forEach(mDept => {
+            const names = (mDept === '病棟') ? [...new Set(monthData.map(d => d.dept))].filter(n => n.startsWith('病棟(')) : [mDept];
+            names.forEach(dName => {
+                const tr = document.createElement('tr'); let html = `<td style="text-align:left; font-weight:bold;">${dName}</td>`;
                 ['生検', '小', '中', '大', '1000ml'].forEach(it => {
-                    const r = monthData.filter(d => d.dept === deptName && d.item === it && d.type === '回収').reduce((s, v) => s + v.qty, 0);
-                    const p = monthData.filter(d => d.dept === deptName && d.item === it && d.type === '払出').reduce((s, v) => s + v.qty, 0);
+                    const r = monthData.filter(d => d.dept === dName && d.item === it && d.type === '回収').reduce((s, v) => s + v.qty, 0);
+                    const p = monthData.filter(d => d.dept === dName && d.item === it && d.type === '払出').reduce((s, v) => s + v.qty, 0);
                     html += `<td class="val-in">${r || ''}</td><td class="val-out">${p || ''}</td>`;
-                    if(grandTotals[it]){
-                        grandTotals[it].回 += r; grandTotals[it].払 += p;
-                    }
+                    if(totals[it]) { totals[it].回 += r; totals[it].払 += p; }
                 });
-                tr.innerHTML = html;
-                sBody.appendChild(tr);
+                tr.innerHTML = html; sBody.appendChild(tr);
             });
         });
-
-        const totalTr = document.createElement('tr');
-        totalTr.className = 'total-row';
-        let totalHtml = `<td>合計</td>`;
-        ['生検', '小', '中', '大', '1000ml'].forEach(it => {
-            totalHtml += `<td>${grandTotals[it].回}</td><td>${grandTotals[it].払}</td>`;
-        });
-        totalTr.innerHTML = totalHtml;
-        sFooter.appendChild(totalTr);
+        const ft = document.createElement('tr'); ft.className = 'total-row'; let fth = `<td>合計</td>`;
+        ['生検', '小', '中', '大', '1000ml'].forEach(it => { fth += `<td>${totals[it].回}</td><td>${totals[it].払}</td>`; });
+        ft.innerHTML = fth; sFooter.appendChild(ft);
     }
 
     function deleteRec(id) {
-        if (!confirm('削除しますか？')) return;
         let data = JSON.parse(localStorage.getItem(CONFIG.storageKey) || '[]');
         localStorage.setItem(CONFIG.storageKey, JSON.stringify(data.filter(d => d.id !== id)));
         refresh();
     }
 
+    // ★「表示データ消去」：現在表示されている月のデータのみ削除
+    function displayDataReset() {
+        const monthLabel = state.viewMonth;
+        const check1 = confirm(`【注意】${monthLabel} のデータのみをすべて消去しますか？\n（他の月のデータは削除されません）`);
+        if (check1) {
+            const check2 = confirm(`本当によろしいですか？\nこの操作は元に戻せません。`);
+            if (check2) {
+                let data = JSON.parse(localStorage.getItem(CONFIG.storageKey) || '[]');
+                // 表示されている月（viewMonth）以外のデータのみを残す
+                const remainingData = data.filter(d => !d.date.startsWith(state.viewMonth));
+                localStorage.setItem(CONFIG.storageKey, JSON.stringify(remainingData));
+                refresh();
+            }
+        }
+    }
+
     function exportToCSV() {
         const data = JSON.parse(localStorage.getItem(CONFIG.storageKey) || '[]');
-        if (!data.length) return alert('データがありません');
+        const filtered = data.filter(d => d.date.startsWith(state.viewMonth));
+        if (!filtered.length) return alert('データがありません');
         let csv = '\uFEFF日付,部署,品目,区分,数量\n';
-        data.forEach(r => csv += `${r.date},${r.dept},${r.item},${r.type},${r.qty}\n`);
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `ホルマリン集計_${state.date.slice(0,7)}.csv`;
-        link.click();
+        filtered.forEach(r => csv += `${r.date},${r.dept},${r.item},${r.type},${r.qty}\n`);
+        const b = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const l = document.createElement('a'); l.href = URL.createObjectURL(b); l.download = `ホルマリン集計_${state.viewMonth}.csv`; l.click();
     }
 </script>
-
 </body>
 </html>
