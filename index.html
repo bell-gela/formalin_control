@@ -1,0 +1,395 @@
+{\rtf1\ansi\ansicpg932\cocoartf2867
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="ja">\
+<head>\
+    <meta charset="UTF-8">\
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+    <title>\uc0\u12507 \u12523 \u12510 \u12522 \u12531 \u20837 \u20986 \u24235 \u31649 \u29702 \u12471 \u12473 \u12486 \u12512 </title>\
+    <style>\
+        :root \{\
+            --primary: #0056b3; --success: #28a745; --danger: #c92a2a;\
+            --bg: #f0f2f5; --card-bg: #ffffff; --border: #dee2e6; --text: #333;\
+            /* \uc0\u37096 \u32626 \u21029 \u12459 \u12521 \u12540  */\
+            --color-endo: #fce7f3; --color-op: #e0f2fe; --color-dent: #f3e8ff;\
+            --color-gyn: #fef08a; --color-derma: #dcfce7; --color-surg: #ffedd5;\
+            --color-plastic: #fee2e2; --color-ent: #ccfbf1; --color-radio: #f1f5f9;\
+            --color-peri: #fae8ff; --color-oph: #ecfdf5; --color-ward: #fff7ed;\
+        \}\
+\
+        body \{\
+            font-family: 'Helvetica Neue', Arial, sans-serif;\
+            background-color: var(--bg); color: var(--text); margin: 0;\
+            display: flex; flex-direction: column; height: 100vh; overflow: hidden;\
+        \}\
+\
+        header \{\
+            background-color: var(--primary); color: white; padding: 0 20px;\
+            display: flex; justify-content: space-between; align-items: center;\
+            height: 45px; flex-shrink: 0;\
+        \}\
+\
+        main \{ display: flex; flex: 1; padding: 10px; gap: 10px; overflow: hidden; \}\
+\
+        .input-section \{\
+            flex: 0 0 420px; background: var(--card-bg); border-radius: 8px;\
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);\
+            display: flex; flex-direction: column; padding: 12px; overflow-y: auto;\
+        \}\
+\
+        .display-section \{ flex: 1; display: flex; flex-direction: column; gap: 10px; overflow: hidden; \}\
+\
+        .sub-section \{\
+            height: 50%; background: var(--card-bg); border-radius: 8px; padding: 12px;\
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);\
+            display: flex; flex-direction: column; overflow: hidden;\
+        \}\
+\
+        h2 \{ font-size: 0.85rem; margin: 0 0 8px 0; border-left: 4px solid var(--primary); padding-left: 8px; \}\
+\
+        .control-group \{ margin-bottom: 8px; \}\
+        .label \{ font-weight: bold; margin-bottom: 4px; display: block; font-size: 0.75rem; \}\
+\
+        .btn-grid \{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; \}\
+        .btn \{ padding: 8px 2px; border: 1px solid var(--border); border-radius: 4px; background: #fff; cursor: pointer; font-size: 0.75rem; transition: 0.2s; \}\
+        .btn.active \{ background: var(--primary) !important; color: white !important; font-weight: bold; \}\
+\
+        .btn-type[data-val="\uc0\u25173 \u20986 "].active \{ background: var(--danger) !important; border-color: var(--danger); \}\
+        .btn-type[data-val="\uc0\u22238 \u21454 "].active \{ background: var(--success) !important; border-color: var(--success); \}\
+\
+        .qty-area \{ background: #f8f9fa; border: 1px solid var(--border); border-radius: 6px; padding: 8px; \}\
+        .qty-box \{\
+            background: white; border: 2px solid var(--primary); border-radius: 6px;\
+            width: 80px; margin: 0 auto 8px; padding: 4px;\
+            text-align: center; font-size: 1.6rem; font-weight: bold; color: var(--primary);\
+        \}\
+        .qty-controls-horiz \{ display: flex; justify-content: space-around; gap: 6px; \}\
+        .qty-unit-col \{ display: flex; flex-direction: column; align-items: center; gap: 3px; flex: 1; \}\
+        .unit-label \{ font-size: 0.7rem; color: #666; font-weight: bold; \}\
+        .qty-btn-row \{ display: flex; gap: 2px; width: 100%; \}\
+        .qty-unit-btn \{\
+            flex: 1; padding: 6px 0; border: 1px solid #ced4da; border-radius: 4px;\
+            background: white; cursor: pointer; font-weight: bold; font-size: 0.85rem;\
+        \}\
+\
+        /* \uc0\u37096 \u32626 \u12459 \u12521 \u12540 \u35373 \u23450  */\
+        .btn-dept[data-val="\uc0\u20869 \u35222 \u37857 \u23460 "] \{ background-color: var(--color-endo); \}\
+        .btn-dept[data-val="\uc0\u25163 \u34899 \u23460 "] \{ background-color: var(--color-op); \}\
+        .btn-dept[data-val="\uc0\u27503 \u31185 "] \{ background-color: var(--color-dent); \}\
+        .btn-dept[data-val="\uc0\u23142 \u20154 \u31185 "] \{ background-color: var(--color-gyn); \}\
+        .btn-dept[data-val="\uc0\u30382 \u33178 \u31185 "] \{ background-color: var(--color-derma); \}\
+        .btn-dept[data-val="\uc0\u22806 \u31185 "] \{ background-color: var(--color-surg); \}\
+        .btn-dept[data-val="\uc0\u24418 \u25104 \u22806 \u31185 "] \{ background-color: var(--color-plastic); \}\
+        .btn-dept[data-val="\uc0\u32819 \u40763 \u31185 "] \{ background-color: var(--color-ent); \}\
+        .btn-dept[data-val="\uc0\u25918 \u23556 \u32218 "] \{ background-color: var(--color-radio); \}\
+        .btn-dept[data-val="\uc0\u21608 \u29987 \u26399 C"] \{ background-color: var(--color-peri); \}\
+        .btn-dept[data-val="\uc0\u30524 \u31185 "] \{ background-color: var(--color-oph); \}\
+        .btn-dept[data-val="\uc0\u30149 \u26847 "] \{ background-color: var(--color-ward); border: 1px dashed #999; \}\
+\
+        #ward-sub-panel \{ display: none; background: #fff; padding: 6px; border: 1px solid var(--primary); border-radius: 4px; margin-top: 4px; \}\
+\
+        .register-btn \{ background: var(--primary); color: white; border: none; padding: 12px; font-size: 1rem; font-weight: bold; border-radius: 4px; cursor: pointer; margin-top: 10px; flex-shrink: 0; \}\
+        .register-btn:hover \{ background: #004494; \}\
+\
+        .scroll-wrap \{ flex: 1; overflow-y: auto; border: 1px solid var(--border); border-radius: 4px; background: #fff; \}\
+        table \{ width: 100%; border-collapse: collapse; font-size: 0.75rem; \}\
+        th \{ position: sticky; top: 0; background: #f8f9fa; border-bottom: 2px solid var(--border); padding: 6px; text-align: left; z-index: 5; \}\
+        td \{ padding: 4px 6px; border-bottom: 1px solid var(--border); \}\
+\
+        .summary-table th \{ background: #e9ecef; text-align: center; font-size: 0.65rem; \}\
+        .summary-table td \{ text-align: center; font-size: 0.7rem; \}\
+        .total-row \{ background: #f1f3f5; font-weight: bold; \}\
+        .val-in \{ color: var(--success); font-weight: bold; \}\
+        .val-out \{ color: var(--danger); font-weight: bold; \}\
+        .btn-del \{ color: var(--danger); border: none; background: none; cursor: pointer; text-decoration: underline; font-size: 0.65rem; \}\
+    </style>\
+</head>\
+<body>\
+\
+<header>\
+    <h1>\uc0\u12507 \u12523 \u12510 \u12522 \u12531 \u20837 \u20986 \u24235 \u31649 \u29702 </h1>\
+    <div style="font-size: 0.8rem;">\uc0\u26412 \u26085 \u65306 <span id="today-count">0</span> \u20214 </div>\
+</header>\
+\
+<main>\
+    <section class="input-section">\
+        <div class="control-group">\
+            <span class="label">\uc0\u26085 \u20184 </span>\
+            <input type="date" id="input-date" style="width: 100%; padding: 4px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.85rem;">\
+        </div>\
+\
+        <div class="control-group">\
+            <span class="label">\uc0\u21306 \u20998 </span>\
+            <div class="btn-grid" style="grid-template-columns: 1fr 1fr;">\
+                <button class="btn btn-type active" data-val="\uc0\u22238 \u21454 ">\u22238 \u21454 </button>\
+                <button class="btn btn-type" data-val="\uc0\u25173 \u20986 ">\u25173 \u20986 </button>\
+            </div>\
+        </div>\
+\
+        <div class="control-group">\
+            <span class="label">\uc0\u37096 \u32626 </span>\
+            <div class="btn-grid" id="dept-selector"></div>\
+            <div id="ward-sub-panel">\
+                <div class="btn-grid" id="ward-list"></div>\
+            </div>\
+        </div>\
+\
+        <div class="control-group">\
+            <span class="label">\uc0\u21697 \u30446 </span>\
+            <div class="btn-grid" id="item-selector"></div>\
+        </div>\
+\
+        <div class="control-group">\
+            <span class="label">\uc0\u25968 \u37327 \u35519 \u25972 \u65288 \u21021 \u26399 \u20516 : 0\u65289 </span>\
+            <div class="qty-area">\
+                <div class="qty-box" id="qty-display">0</div>\
+                <div class="qty-controls-horiz">\
+                    <div class="qty-unit-col">\
+                        <span class="unit-label">1</span>\
+                        <div class="qty-btn-row">\
+                            <button class="qty-unit-btn" onclick="adjustQty(-1)">\uc0\u65293 </button>\
+                            <button class="qty-unit-btn" onclick="adjustQty(1)">\uc0\u65291 </button>\
+                        </div>\
+                    </div>\
+                    <div class="qty-unit-col">\
+                        <span class="unit-label">10</span>\
+                        <div class="qty-btn-row">\
+                            <button class="qty-unit-btn" onclick="adjustQty(-10)">\uc0\u65293 </button>\
+                            <button class="qty-unit-btn" onclick="adjustQty(10)">\uc0\u65291 </button>\
+                        </div>\
+                    </div>\
+                    <div class="qty-unit-col">\
+                        <span class="unit-label">100</span>\
+                        <div class="qty-btn-row">\
+                            <button class="qty-unit-btn" onclick="adjustQty(-100)">\uc0\u65293 </button>\
+                            <button class="qty-unit-btn" onclick="adjustQty(100)">\uc0\u65291 </button>\
+                        </div>\
+                    </div>\
+                </div>\
+            </div>\
+        </div>\
+\
+        <button class="register-btn" onclick="saveEntry()">\uc0\u12487 \u12540 \u12479 \u12434 \u30331 \u37682 \u12377 \u12427 </button>\
+    </section>\
+\
+    <div class="display-section">\
+        <div class="sub-section">\
+            <h2>\uc0\u20837 \u21147 \u23653 \u27508  (\u26368 \u26032 50\u20214 )</h2>\
+            <div class="scroll-wrap">\
+                <table>\
+                    <thead><tr><th>\uc0\u26085 \u20184 </th><th>\u37096 \u32626 </th><th>\u21697 \u30446 </th><th>\u21306 \u20998 </th><th>\u25968 </th><th></th></tr></thead>\
+                    <tbody id="history-body"></tbody>\
+                </table>\
+            </div>\
+        </div>\
+\
+        <div class="sub-section">\
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">\
+                <h2 style="margin:0;">\uc0\u20170 \u26376 \u12398 \u38598 \u35336 \u36914 \u25431 </h2>\
+                <button onclick="exportToCSV()" style="background:var(--success); color:white; border:none; padding:4px 10px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.7rem;">CSV\uc0\u20986 \u21147  \u55357 \u56522 </button>\
+            </div>\
+            <div class="scroll-wrap">\
+                <table class="summary-table">\
+                    <thead>\
+                        <tr>\
+                            <th rowspan="2">\uc0\u37096 \u32626 \u21517 </th>\
+                            <th colspan="2">\uc0\u29983 \u26908 </th><th colspan="2">\u23567 </th><th colspan="2">\u20013 </th><th colspan="2">\u22823 </th><th colspan="2">1000</th>\
+                        </tr>\
+                        <tr>\
+                            <th>\uc0\u22238 </th><th>\u25173 </th><th>\u22238 </th><th>\u25173 </th><th>\u22238 </th><th>\u25173 </th><th>\u22238 </th><th>\u25173 </th><th>\u22238 </th><th>\u25173 </th>\
+                        </tr>\
+                    </thead>\
+                    <tbody id="summary-body"></tbody>\
+                    <tfoot id="summary-footer"></tfoot>\
+                </table>\
+            </div>\
+        </div>\
+    </div>\
+</main>\
+\
+<script>\
+    const CONFIG = \{\
+        depts: ['\uc0\u20869 \u35222 \u37857 \u23460 ', '\u25163 \u34899 \u23460 ', '\u27503 \u31185 ', '\u23142 \u20154 \u31185 ', '\u30382 \u33178 \u31185 ', '\u22806 \u31185 ', '\u24418 \u25104 \u22806 \u31185 ', '\u32819 \u40763 \u31185 ', '\u25918 \u23556 \u32218 ', '\u21608 \u29987 \u26399 C', '\u30524 \u31185 ', '\u30149 \u26847 '],\
+        wards: ['\uc0\u21335 3', '\u21335 4', '\u33034 \u26894 \u12475 \u12531 \u12479 \u12540 ', '\u21335 6', 'NICU', '\u26481 3', '\u20154 \u24037 \u38306 \u31680 \u12475 \u12531 \u12479 \u12540 ', '\u26481 5', '\u20013 4', '\u20013 5'],\
+        items: ['\uc0\u29983 \u26908 ', '\u23567 ', '\u20013 ', '\u22823 ', '1000ml', '\u12461 \u12515 \u12483 \u12481 \u12507 \u12523 \u12512 '],\
+        storageKey: 'formalin_v9_pc_final'\
+    \};\
+\
+    let state = \{ date: '', type: '\uc0\u22238 \u21454 ', dept: '', subDept: '', item: '', qty: 0 \};\
+\
+    window.onload = () => \{\
+        const today = new Date().toISOString().split('T')[0];\
+        document.getElementById('input-date').value = today;\
+        state.date = today;\
+        initUI();\
+        refresh();\
+    \};\
+\
+    function initUI() \{\
+        const dDiv = document.getElementById('dept-selector');\
+        CONFIG.depts.forEach(d => \{\
+            const b = document.createElement('button');\
+            b.className = 'btn btn-dept'; b.innerText = d; b.dataset.val = d;\
+            b.id = d === '\uc0\u30149 \u26847 ' ? 'btn-ward-main' : ''; // \u30149 \u26847 \u12508 \u12479 \u12531 \u12395 ID\u20184 \u19982 \
+            b.onclick = () => \{\
+                state.dept = d; state.subDept = '';\
+                // \uc0\u37096 \u32626 \u12364 \u22793 \u12431 \u12387 \u12383 \u12425 \u12300 \u30149 \u26847 \u12301 \u12508 \u12479 \u12531 \u12398 \u34920 \u31034 \u12434 \u12522 \u12475 \u12483 \u12488 \
+                document.getElementById('btn-ward-main').innerText = '\uc0\u30149 \u26847 ';\
+                document.querySelectorAll('.btn-dept').forEach(btn => btn.classList.toggle('active', btn.dataset.val === d));\
+                document.getElementById('ward-sub-panel').style.display = (d === '\uc0\u30149 \u26847 ' ? 'block' : 'none');\
+            \};\
+            dDiv.appendChild(b);\
+        \});\
+\
+        const wDiv = document.getElementById('ward-list');\
+        CONFIG.wards.forEach(w => \{\
+            const b = document.createElement('button'); b.className = 'btn'; b.innerText = w;\
+            b.onclick = () => \{\
+                state.subDept = w;\
+                // \uc0\u9733 \u36984 \u25246 \u24460 \u12395 \u12513 \u12452 \u12531 \u12508 \u12479 \u12531 \u12398 \u34920 \u31034 \u12434 \u26356 \u26032 \
+                const mainWardBtn = document.getElementById('btn-ward-main');\
+                mainWardBtn.innerText = `\uc0\u30149 \u26847 ($\{w\})`;\
+                mainWardBtn.classList.add('active'); // \uc0\u35242 \u12508 \u12479 \u12531 \u12434 \u12450 \u12463 \u12486 \u12451 \u12502 \u12395 \
+                \
+                document.getElementById('ward-sub-panel').style.display = 'none';\
+                Array.from(wDiv.children).forEach(btn => btn.classList.toggle('active', btn.innerText === w));\
+            \};\
+            wDiv.appendChild(b);\
+        \});\
+\
+        const iDiv = document.getElementById('item-selector');\
+        CONFIG.items.forEach(i => \{\
+            const b = document.createElement('button'); b.className = 'btn btn-item'; b.innerText = i; b.dataset.val = i;\
+            b.onclick = () => \{\
+                state.item = i;\
+                document.querySelectorAll('.btn-item').forEach(btn => btn.classList.toggle('active', btn.dataset.val === i));\
+            \};\
+            iDiv.appendChild(b);\
+        \});\
+\
+        document.querySelectorAll('.btn-type').forEach(b => \{\
+            b.onclick = () => \{\
+                state.type = b.dataset.val;\
+                document.querySelectorAll('.btn-type').forEach(btn => btn.classList.toggle('active', btn.dataset.val === b.dataset.val));\
+            \};\
+        \});\
+        document.getElementById('input-date').onchange = (e) => state.date = e.target.value;\
+    \}\
+\
+    function adjustQty(n) \{\
+        state.qty = Math.max(0, state.qty + n);\
+        document.getElementById('qty-display').innerText = state.qty;\
+    \}\
+\
+    function saveEntry() \{\
+        if (!state.dept || !state.item) return alert('\uc0\u37096 \u32626 \u12392 \u21697 \u30446 \u12434 \u36984 \u25246 \u12375 \u12390 \u12367 \u12384 \u12373 \u12356 ');\
+        if (state.dept === '\uc0\u30149 \u26847 ' && !state.subDept) return alert('\u30149 \u26847 \u21517 \u12434 \u36984 \u25246 \u12375 \u12390 \u12367 \u12384 \u12373 \u12356 ');\
+        if (state.qty === 0) return alert('\uc0\u20491 \u25968 \u12434 \u36984 \u25246 \u12375 \u12390 \u12367 \u12384 \u12373 \u12356 ');\
+\
+        const data = JSON.parse(localStorage.getItem(CONFIG.storageKey) || '[]');\
+        data.push(\{\
+            id: Date.now(),\
+            date: state.date,\
+            dept: state.dept === '\uc0\u30149 \u26847 ' ? `\u30149 \u26847 ($\{state.subDept\})` : state.dept,\
+            item: state.item,\
+            type: state.type,\
+            qty: state.qty\
+        \});\
+        localStorage.setItem(CONFIG.storageKey, JSON.stringify(data));\
+        \
+        // \uc0\u9733 \u12522 \u12475 \u12483 \u12488 \u20966 \u29702 \
+        state.qty = 0;\
+        document.getElementById('qty-display').innerText = 0;\
+        \
+        // \uc0\u30149 \u26847 \u12508 \u12479 \u12531 \u12398 \u34920 \u31034 \u12392 \u36984 \u25246 \u12434 \u21021 \u26399 \u21270 \
+        document.getElementById('btn-ward-main').innerText = '\uc0\u30149 \u26847 ';\
+        document.querySelectorAll('.btn-dept, .btn-item').forEach(btn => btn.classList.remove('active'));\
+        state.dept = '';\
+        state.subDept = '';\
+        state.item = '';\
+        \
+        refresh();\
+    \}\
+\
+    function refresh() \{\
+        const data = JSON.parse(localStorage.getItem(CONFIG.storageKey) || '[]');\
+        const today = new Date().toISOString().split('T')[0];\
+        document.getElementById('today-count').innerText = data.filter(d => d.date === today).length;\
+\
+        const hBody = document.getElementById('history-body');\
+        hBody.innerHTML = '';\
+        data.slice().reverse().slice(0, 50).forEach(r => \{\
+            const tr = document.createElement('tr');\
+            tr.innerHTML = `<td>$\{r.date.slice(5)\}</td><td>$\{r.dept\}</td><td>$\{r.item\}</td><td style="font-weight:bold; color:$\{r.type==='\uc0\u22238 \u21454 '?'var(--success)':'var(--primary)'\}">$\{r.type\}</td><td>$\{r.qty\}</td><td><button class="btn-del" onclick="deleteRec($\{r.id\})">\u21066 \u38500 </button></td>`;\
+            hBody.appendChild(tr);\
+        \});\
+\
+        const sBody = document.getElementById('summary-body');\
+        const sFooter = document.getElementById('summary-footer');\
+        sBody.innerHTML = '';\
+        sFooter.innerHTML = '';\
+        const currentMonth = state.date.slice(0, 7);\
+        const monthData = data.filter(d => d.date.startsWith(currentMonth));\
+\
+        const grandTotals = \{\
+            '\uc0\u29983 \u26908 ': \{\u22238 :0, \u25173 :0\}, '\u23567 ': \{\u22238 :0, \u25173 :0\}, '\u20013 ': \{\u22238 :0, \u25173 :0\}, '\u22823 ': \{\u22238 :0, \u25173 :0\}, '1000ml': \{\u22238 :0, \u25173 :0\}\
+        \};\
+\
+        CONFIG.depts.forEach(masterDept => \{\
+            const targetNames = (masterDept === '\uc0\u30149 \u26847 ') \
+                ? [...new Set(monthData.map(d => d.dept))].filter(n => n.startsWith('\uc0\u30149 \u26847 ('))\
+                : [masterDept];\
+\
+            targetNames.forEach(deptName => \{\
+                const tr = document.createElement('tr');\
+                let html = `<td style="text-align:left; font-weight:bold;">$\{deptName\}</td>`;\
+                ['\uc0\u29983 \u26908 ', '\u23567 ', '\u20013 ', '\u22823 ', '1000ml'].forEach(it => \{\
+                    const r = monthData.filter(d => d.dept === deptName && d.item === it && d.type === '\uc0\u22238 \u21454 ').reduce((s, v) => s + v.qty, 0);\
+                    const p = monthData.filter(d => d.dept === deptName && d.item === it && d.type === '\uc0\u25173 \u20986 ').reduce((s, v) => s + v.qty, 0);\
+                    html += `<td class="val-in">$\{r || ''\}</td><td class="val-out">$\{p || ''\}</td>`;\
+                    if(grandTotals[it])\{\
+                        grandTotals[it].\uc0\u22238  += r; grandTotals[it].\u25173  += p;\
+                    \}\
+                \});\
+                tr.innerHTML = html;\
+                sBody.appendChild(tr);\
+            \});\
+        \});\
+\
+        const totalTr = document.createElement('tr');\
+        totalTr.className = 'total-row';\
+        let totalHtml = `<td>\uc0\u21512 \u35336 </td>`;\
+        ['\uc0\u29983 \u26908 ', '\u23567 ', '\u20013 ', '\u22823 ', '1000ml'].forEach(it => \{\
+            totalHtml += `<td>$\{grandTotals[it].\uc0\u22238 \}</td><td>$\{grandTotals[it].\u25173 \}</td>`;\
+        \});\
+        totalTr.innerHTML = totalHtml;\
+        sFooter.appendChild(totalTr);\
+    \}\
+\
+    function deleteRec(id) \{\
+        if (!confirm('\uc0\u21066 \u38500 \u12375 \u12414 \u12377 \u12363 \u65311 ')) return;\
+        let data = JSON.parse(localStorage.getItem(CONFIG.storageKey) || '[]');\
+        localStorage.setItem(CONFIG.storageKey, JSON.stringify(data.filter(d => d.id !== id)));\
+        refresh();\
+    \}\
+\
+    function exportToCSV() \{\
+        const data = JSON.parse(localStorage.getItem(CONFIG.storageKey) || '[]');\
+        if (!data.length) return alert('\uc0\u12487 \u12540 \u12479 \u12364 \u12354 \u12426 \u12414 \u12379 \u12435 ');\
+        let csv = '\\uFEFF\uc0\u26085 \u20184 ,\u37096 \u32626 ,\u21697 \u30446 ,\u21306 \u20998 ,\u25968 \u37327 \\n';\
+        data.forEach(r => csv += `$\{r.date\},$\{r.dept\},$\{r.item\},$\{r.type\},$\{r.qty\}\\n`);\
+        const blob = new Blob([csv], \{ type: 'text/csv;charset=utf-8;' \});\
+        const link = document.createElement('a');\
+        link.href = URL.createObjectURL(blob);\
+        link.download = `\uc0\u12507 \u12523 \u12510 \u12522 \u12531 \u38598 \u35336 _$\{state.date.slice(0,7)\}.csv`;\
+        link.click();\
+    \}\
+</script>\
+\
+</body>\
+</html>}
