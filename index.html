@@ -8,9 +8,7 @@
         :root {
             --primary: #0056b3; --success: #28a745; --danger: #c92a2a;
             --bg: #f0f2f5; --card-bg: #ffffff; --border: #dee2e6; --text: #333;
-            /* 数量ボタン用カラー */
-            --qty-plus-bg: #e0f2fe;
-            --qty-minus-bg: #fee2e2;
+            --qty-plus-bg: #e0f2fe; --qty-minus-bg: #fee2e2;
             /* 部署別カラー */
             --color-endo: #fce7f3; --color-op: #e0f2fe; --color-dent: #f3e8ff;
             --color-gyn: #fef08a; --color-derma: #dcfce7; --color-surg: #ffedd5;
@@ -22,7 +20,6 @@
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
             background-color: var(--bg); color: var(--text); margin: 0;
             display: flex; flex-direction: column; height: 100vh; overflow: hidden;
-            -webkit-font-smoothing: antialiased;
         }
 
         header {
@@ -32,32 +29,29 @@
             z-index: 100;
         }
 
-        .header-controls { display: flex; align-items: center; gap: 20px; }
+        .header-controls { display: flex; align-items: center; gap: 15px; }
         .today-badge { background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 4px; font-weight: bold; font-size: 0.9rem; }
-        .month-picker-container { display: flex; align-items: center; gap: 8px; }
+        .month-picker-container { display: flex; align-items: center; gap: 5px; }
         #view-month-picker { padding: 5px; border-radius: 4px; border: 1px solid white; font-size: 0.9rem; cursor: pointer; font-weight: bold; }
-        
-        /* 表示データ消去ボタン */
-        .reset-btn { 
-            background-color: var(--danger); color: white; border: 1px solid rgba(255,255,255,0.3); 
-            padding: 6px 10px; border-radius: 4px; cursor: pointer; 
-            font-weight: bold; font-size: 0.75rem; 
-        }
+
+        .sys-btn { padding: 6px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.75rem; border: 1px solid rgba(255,255,255,0.3); color: white; }
+        .btn-backup { background-color: #555; }
+        .btn-restore { background-color: #666; }
+        .btn-reset { background-color: var(--danger); }
 
         main { display: flex; flex: 1; padding: 10px; gap: 10px; overflow: hidden; }
 
-        /* 左側：入力セクション（フォントを太く強調） */
+        /* 左側：入力セクション */
         .input-section {
             flex: 0 0 420px; background: var(--card-bg); border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            display: flex; flex-direction: column; padding: 12px; overflow-y: auto;
-            font-weight: 600; /* 全体的に太めに */
+            display: flex; flex-direction: column; padding: 12px; overflow: hidden;
         }
 
         .display-section { flex: 1; display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
 
         .sub-section {
-            flex: 1; background: var(--card-bg); border-radius: 8px; padding: 12px;
+            height: 50%; background: var(--card-bg); border-radius: 8px; padding: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             display: flex; flex-direction: column; overflow: hidden;
         }
@@ -65,14 +59,11 @@
         h2 { font-size: 0.9rem; margin: 0 0 8px 0; border-left: 5px solid var(--primary); padding-left: 8px; font-weight: bold; }
 
         .control-group { margin-bottom: 10px; }
-        .label { font-weight: 800; margin-bottom: 5px; display: block; font-size: 0.85rem; color: #111; }
+        .label { font-weight: 900; margin-bottom: 5px; display: block; font-size: 0.85rem; color: #111; }
 
         .btn-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
-        .btn { 
-            padding: 10px 2px; border: 1px solid var(--border); border-radius: 4px; 
-            background: #fff; cursor: pointer; font-size: 0.85rem; font-weight: 700; transition: 0.1s; 
-        }
-        .btn.active { background: var(--primary) !important; color: white !important; border-color: var(--primary); box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
+        .btn { padding: 10px 2px; border: 1px solid var(--border); border-radius: 4px; background: #fff; cursor: pointer; font-size: 0.85rem; font-weight: 800; transition: 0.1s; }
+        .btn.active { background: var(--primary) !important; color: white !important; font-weight: bold; }
 
         .btn-type[data-val="払出"].active { background: var(--danger) !important; border-color: var(--danger); }
         .btn-type[data-val="回収"].active { background: var(--success) !important; border-color: var(--success); }
@@ -96,9 +87,8 @@
         }
         .btn-plus { background-color: var(--qty-plus-bg); color: #0369a1; border-color: #7dd3fc; }
         .btn-minus { background-color: var(--qty-minus-bg); color: #991b1b; border-color: #fca5a5; }
-        .qty-unit-btn:active { transform: translateY(2px); box-shadow: none; }
 
-        /* 部署カラー設定 */
+        /* 部署カラー */
         .btn-dept[data-val="内視鏡室"] { background-color: var(--color-endo); }
         .btn-dept[data-val="手術室"] { background-color: var(--color-op); }
         .btn-dept[data-val="歯科"] { background-color: var(--color-dent); }
@@ -113,8 +103,7 @@
         .btn-dept[data-val="病棟"] { background-color: var(--color-ward); border: 1.5px dashed #666; }
 
         #ward-sub-panel { display: none; background: #fff; padding: 8px; border: 2px solid var(--primary); border-radius: 4px; margin-top: 5px; }
-        .register-btn { background: var(--primary); color: white; border: none; padding: 16px; font-size: 1.2rem; font-weight: 900; border-radius: 4px; cursor: pointer; margin-top: 10px; letter-spacing: 2px; }
-        .register-btn:hover { background: #004494; }
+        .register-btn { background: var(--primary); color: white; border: none; padding: 16px; font-size: 1.2rem; font-weight: 900; border-radius: 4px; cursor: pointer; margin-top: auto; }
 
         /* 右側テーブル */
         .scroll-wrap { flex: 1; overflow-y: auto; border: 1px solid var(--border); border-radius: 4px; background: #fff; }
@@ -123,7 +112,7 @@
         td { padding: 6px 8px; border-bottom: 1px solid var(--border); }
 
         .summary-table th { background: #e9ecef; text-align: center; }
-        .summary-table td { text-align: center; font-weight: 500; }
+        .summary-table td { text-align: center; }
         .total-row { background: #f1f3f5; font-weight: bold; }
         .val-in { color: var(--success); font-weight: bold; }
         .val-out { color: var(--danger); font-weight: bold; }
@@ -135,12 +124,14 @@
 <header>
     <h1>ホルマリン入出庫管理</h1>
     <div class="header-controls">
-        <div class="today-badge">本日入力：<span id="today-count">0</span> 件</div>
+        <div class="today-badge">本日：<span id="today-count">0</span> 件</div>
         <div class="month-picker-container">
-            <span style="font-size: 0.8rem; font-weight: bold;">表示月：</span>
             <input type="month" id="view-month-picker" onchange="changeViewMonth(this.value)">
         </div>
-        <button class="reset-btn" onclick="displayDataReset()">表示データ消去</button>
+        <button class="sys-btn btn-backup" onclick="exportJSON()">保存</button>
+        <button class="sys-btn btn-restore" onclick="triggerRestore()">復元</button>
+        <input type="file" id="restore-input" style="display:none" onchange="importJSON(event)">
+        <button class="sys-btn btn-reset" onclick="displayDataReset()">消去</button>
     </div>
 </header>
 
@@ -194,8 +185,8 @@
         </div>
         <div class="sub-section">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-                <h2 id="summary-label" style="margin:0;">集計進捗</h2>
-                <button onclick="exportToCSV()" style="background:var(--success); color:white; border:none; padding:8px 16px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.8rem;">CSV出力 📊</button>
+                <h2 id="summary-label" style="margin:0;">集計</h2>
+                <button onclick="exportCSV()" style="background:var(--success); color:white; border:none; padding:8px 16px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.8rem;">Excel用CSV出力 📊</button>
             </div>
             <div class="scroll-wrap">
                 <table class="summary-table">
@@ -219,7 +210,7 @@
         depts: ['内視鏡室', '手術室', '歯科', '婦人科', '皮膚科', '外科', '形成外科', '耳鼻科', '放射線', '周産期C', '眼科', '病棟'],
         wards: ['南3', '南4', '脊椎センター', '南6', 'NICU', '東3', '人工関節センター', '東5', '中4', '中5'],
         items: ['生検', '小', '中', '大', '1000ml', 'キャッチホルム'],
-        storageKey: 'formalin_v16_final_pc'
+        storageKey: 'formalin_v17_final'
     };
 
     let state = { date: '', type: '回収', dept: '', subDept: '', item: '', qty: 0, viewMonth: '' };
@@ -249,7 +240,8 @@
         CONFIG.wards.forEach(w => {
             const b = document.createElement('button'); b.className = 'btn'; b.innerText = w;
             b.onclick = () => {
-                state.subDept = w; const m = document.getElementById('btn-ward-main'); m.innerText = `病棟(${w})`; m.classList.add('active');
+                state.subDept = w; document.getElementById('btn-ward-main').innerText = `病棟(${w})`; 
+                document.getElementById('btn-ward-main').classList.add('active');
                 document.getElementById('ward-sub-panel').style.display = 'none';
             };
             wDiv.appendChild(b);
@@ -270,12 +262,13 @@
     function changeViewMonth(val) { state.viewMonth = val; refresh(); }
 
     function saveEntry() {
-        if (!state.dept || !state.item || state.qty === 0) return alert('入力内容を確認してください');
+        if (!state.dept || !state.item || state.qty === 0) return alert('内容を確認してください');
         if (state.dept === '病棟' && !state.subDept) return alert('病棟名を選択してください');
         const data = JSON.parse(localStorage.getItem(CONFIG.storageKey) || '[]');
         data.push({ id: Date.now(), date: state.date, dept: state.dept === '病棟' ? `病棟(${state.subDept})` : state.dept, item: state.item, type: state.type, qty: state.qty });
         localStorage.setItem(CONFIG.storageKey, JSON.stringify(data));
-        state.qty = 0; document.getElementById('qty-display').innerText = 0; document.getElementById('btn-ward-main').innerText = '病棟';
+        state.qty = 0; document.getElementById('qty-display').innerText = 0;
+        document.getElementById('btn-ward-main').innerText = '病棟';
         document.querySelectorAll('.btn-dept, .btn-item').forEach(b => b.classList.remove('active'));
         state.dept = ''; state.subDept = ''; state.item = ''; refresh();
     }
@@ -323,30 +316,51 @@
         refresh();
     }
 
-    // ★「表示データ消去」：現在表示されている月のデータのみ削除
     function displayDataReset() {
-        const monthLabel = state.viewMonth;
-        const check1 = confirm(`【注意】${monthLabel} のデータのみをすべて消去しますか？\n（他の月のデータは削除されません）`);
-        if (check1) {
-            const check2 = confirm(`本当によろしいですか？\nこの操作は元に戻せません。`);
-            if (check2) {
-                let data = JSON.parse(localStorage.getItem(CONFIG.storageKey) || '[]');
-                // 表示されている月（viewMonth）以外のデータのみを残す
-                const remainingData = data.filter(d => !d.date.startsWith(state.viewMonth));
-                localStorage.setItem(CONFIG.storageKey, JSON.stringify(remainingData));
-                refresh();
-            }
+        if (confirm(`${state.viewMonth} のデータのみを消去しますか？`)) {
+            let data = JSON.parse(localStorage.getItem(CONFIG.storageKey) || '[]');
+            localStorage.setItem(CONFIG.storageKey, JSON.stringify(data.filter(d => !d.date.startsWith(state.viewMonth))));
+            refresh();
         }
     }
 
-    function exportToCSV() {
+    // JSONバックアップ機能
+    function exportJSON() {
+        const data = localStorage.getItem(CONFIG.storageKey);
+        if (!data || data === '[]') return alert('保存するデータがありません');
+        const blob = new Blob([data], { type: 'application/json' });
+        const l = document.createElement('a');
+        l.href = URL.createObjectURL(blob);
+        l.download = `formalin_backup_${new Date().toISOString().slice(0,10)}.json`;
+        l.click();
+    }
+
+    function triggerRestore() { document.getElementById('restore-input').click(); }
+
+    function importJSON(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        if (!confirm('既存のデータに上書きして復元しますか？（現在のデータは消去されます）')) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const json = JSON.parse(event.target.result);
+                localStorage.setItem(CONFIG.storageKey, JSON.stringify(json));
+                alert('データを復元しました');
+                location.reload();
+            } catch (err) { alert('ファイルの形式が正しくありません'); }
+        };
+        reader.readAsText(file);
+    }
+
+    function exportCSV() {
         const data = JSON.parse(localStorage.getItem(CONFIG.storageKey) || '[]');
         const filtered = data.filter(d => d.date.startsWith(state.viewMonth));
         if (!filtered.length) return alert('データがありません');
         let csv = '\uFEFF日付,部署,品目,区分,数量\n';
         filtered.forEach(r => csv += `${r.date},${r.dept},${r.item},${r.type},${r.qty}\n`);
         const b = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-        const l = document.createElement('a'); l.href = URL.createObjectURL(b); l.download = `ホルマリン集計_${state.viewMonth}.csv`; l.click();
+        const l = document.createElement('a'); l.href = URL.createObjectURL(b); l.download = `formalin_${state.viewMonth}.csv`; l.click();
     }
 </script>
 </body>
