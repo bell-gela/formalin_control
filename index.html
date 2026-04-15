@@ -8,9 +8,7 @@
         :root {
             --primary: #0056b3; --success: #28a745; --danger: #c92a2a;
             --bg: #f0f2f5; --card-bg: #ffffff; --border: #dee2e6; --text: #333;
-            /* 数量ボタン用カラー */
             --qty-plus-bg: #e0f2fe; --qty-minus-bg: #fee2e2;
-            /* 部署別カラー */
             --color-endo: #fce7f3; --color-op: #e0f2fe; --color-dent: #f3e8ff;
             --color-gyn: #fef08a; --color-derma: #dcfce7; --color-surg: #ffedd5;
             --color-plastic: #fee2e2; --color-ent: #ccfbf1; --color-radio: #f1f5f9;
@@ -21,7 +19,6 @@
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
             background-color: var(--bg); color: var(--text); margin: 0;
             display: flex; flex-direction: column; height: 100vh; overflow: hidden;
-            -webkit-font-smoothing: antialiased;
         }
 
         header {
@@ -36,7 +33,6 @@
         .month-picker-container { display: flex; align-items: center; gap: 5px; }
         #view-month-picker { padding: 5px; border-radius: 4px; border: 1px solid white; font-size: 0.9rem; cursor: pointer; font-weight: bold; }
 
-        /* システム操作ボタン */
         .sys-btn { padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.75rem; border: 1px solid rgba(255,255,255,0.3); color: white; transition: 0.2s; }
         .btn-backup { background-color: #555; }
         .btn-reset { background-color: var(--danger); }
@@ -45,7 +41,6 @@
 
         main { display: flex; flex: 1; padding: 10px; gap: 10px; overflow: hidden; }
 
-        /* 左側：入力セクション */
         .input-section {
             flex: 0 0 420px; background: var(--card-bg); border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
@@ -73,7 +68,6 @@
         .btn-type[data-val="払出"].active { background: var(--danger) !important; border-color: var(--danger); }
         .btn-type[data-val="回収"].active { background: var(--success) !important; border-color: var(--success); }
 
-        /* 数量調整ボタン */
         .qty-area { background: #f8f9fa; border: 1px solid var(--border); border-radius: 6px; padding: 10px; }
         .qty-box {
             background: white; border: 3px solid var(--primary); border-radius: 6px;
@@ -93,7 +87,6 @@
         .btn-plus { background-color: var(--qty-plus-bg); color: #0369a1; border-color: #7dd3fc; }
         .btn-minus { background-color: var(--qty-minus-bg); color: #991b1b; border-color: #fca5a5; }
 
-        /* 部署カラー */
         .btn-dept[data-val="内視鏡室"] { background-color: var(--color-endo); }
         .btn-dept[data-val="手術室"] { background-color: var(--color-op); }
         .btn-dept[data-val="歯科"] { background-color: var(--color-dent); }
@@ -110,10 +103,9 @@
         #ward-sub-panel { display: none; background: #fff; padding: 8px; border: 2px solid var(--primary); border-radius: 4px; margin-top: 5px; }
         .register-btn { background: var(--primary); color: white; border: none; padding: 16px; font-size: 1.2rem; font-weight: 900; border-radius: 4px; cursor: pointer; margin-top: 10px; letter-spacing: 2px; }
 
-        /* 右側テーブル */
         .scroll-wrap { flex: 1; overflow-y: auto; border: 1px solid var(--border); border-radius: 4px; background: #fff; }
         table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-        th { position: sticky; top: 0; background: #f8f9fa; border-bottom: 2px solid var(--border); padding: 8px; text-align: left; z-index: 5; font-weight: bold; }
+        th { position: sticky; top: 0; background: #f8f9fa; border-bottom: 2px solid var(--border); padding: 8px; text-align: left; font-weight: bold; }
         td { padding: 6px 8px; border-bottom: 1px solid var(--border); }
 
         .summary-table th { background: #e9ecef; text-align: center; }
@@ -213,9 +205,9 @@
 <script>
     const CONFIG = {
         depts: ['内視鏡室', '手術室', '歯科', '婦人科', '皮膚科', '外科', '形成外科', '耳鼻科', '放射線', '周産期C', '眼科', '病棟'],
-        wards: ['南3', '南4', '脊椎センター', '南6', 'NICU', '東3', '人工関節センター', '東5', '中4', '中5'],
+        wards: ['南3', '南4', '脊椎センター', '南6', 'NICU', 'ICU', '東3', '人工関節センター', '東5', '中4', '中5'],
         items: ['生検', '小', '中', '大', '1000ml', 'キャッチホルム'],
-        storageKey: 'formalin_v18_final'
+        storageKey: 'formalin_v19_icu'
     };
 
     let state = { date: '', type: '回収', dept: '', subDept: '', item: '', qty: 0, viewMonth: '' };
