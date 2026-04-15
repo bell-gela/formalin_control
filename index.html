@@ -8,6 +8,7 @@
         :root {
             --primary: #0056b3; --success: #28a745; --danger: #c92a2a;
             --bg: #f0f2f5; --card-bg: #ffffff; --border: #dee2e6; --text: #333;
+            /* 数量ボタン用カラー */
             --qty-plus-bg: #e0f2fe; --qty-minus-bg: #fee2e2;
             /* 部署別カラー */
             --color-endo: #fce7f3; --color-op: #e0f2fe; --color-dent: #f3e8ff;
@@ -20,6 +21,7 @@
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', sans-serif;
             background-color: var(--bg); color: var(--text); margin: 0;
             display: flex; flex-direction: column; height: 100vh; overflow: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
         header {
@@ -29,15 +31,17 @@
             z-index: 100;
         }
 
-        .header-controls { display: flex; align-items: center; gap: 15px; }
-        .today-badge { background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 4px; font-weight: bold; font-size: 0.9rem; }
+        .header-controls { display: flex; align-items: center; gap: 12px; }
+        .today-badge { background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 4px; font-weight: bold; font-size: 0.9rem; margin-right: 8px; }
         .month-picker-container { display: flex; align-items: center; gap: 5px; }
         #view-month-picker { padding: 5px; border-radius: 4px; border: 1px solid white; font-size: 0.9rem; cursor: pointer; font-weight: bold; }
 
-        .sys-btn { padding: 6px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.75rem; border: 1px solid rgba(255,255,255,0.3); color: white; }
+        /* システム操作ボタン */
+        .sys-btn { padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.75rem; border: 1px solid rgba(255,255,255,0.3); color: white; transition: 0.2s; }
         .btn-backup { background-color: #555; }
-        .btn-restore { background-color: #666; }
         .btn-reset { background-color: var(--danger); }
+        .btn-restore { background-color: #666; }
+        .sys-btn:hover { opacity: 0.8; }
 
         main { display: flex; flex: 1; padding: 10px; gap: 10px; overflow: hidden; }
 
@@ -45,13 +49,14 @@
         .input-section {
             flex: 0 0 420px; background: var(--card-bg); border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            display: flex; flex-direction: column; padding: 12px; overflow: hidden;
+            display: flex; flex-direction: column; padding: 12px; overflow-y: auto;
+            font-weight: 600;
         }
 
         .display-section { flex: 1; display: flex; flex-direction: column; gap: 10px; overflow: hidden; }
 
         .sub-section {
-            height: 50%; background: var(--card-bg); border-radius: 8px; padding: 12px;
+            flex: 1; background: var(--card-bg); border-radius: 8px; padding: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             display: flex; flex-direction: column; overflow: hidden;
         }
@@ -62,7 +67,7 @@
         .label { font-weight: 900; margin-bottom: 5px; display: block; font-size: 0.85rem; color: #111; }
 
         .btn-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
-        .btn { padding: 10px 2px; border: 1px solid var(--border); border-radius: 4px; background: #fff; cursor: pointer; font-size: 0.85rem; font-weight: 800; transition: 0.1s; }
+        .btn { padding: 10px 2px; border: 1px solid var(--border); border-radius: 4px; background: #fff; cursor: pointer; font-size: 0.85rem; font-weight: 700; transition: 0.1s; }
         .btn.active { background: var(--primary) !important; color: white !important; font-weight: bold; }
 
         .btn-type[data-val="払出"].active { background: var(--danger) !important; border-color: var(--danger); }
@@ -103,7 +108,7 @@
         .btn-dept[data-val="病棟"] { background-color: var(--color-ward); border: 1.5px dashed #666; }
 
         #ward-sub-panel { display: none; background: #fff; padding: 8px; border: 2px solid var(--primary); border-radius: 4px; margin-top: 5px; }
-        .register-btn { background: var(--primary); color: white; border: none; padding: 16px; font-size: 1.2rem; font-weight: 900; border-radius: 4px; cursor: pointer; margin-top: auto; }
+        .register-btn { background: var(--primary); color: white; border: none; padding: 16px; font-size: 1.2rem; font-weight: 900; border-radius: 4px; cursor: pointer; margin-top: 10px; letter-spacing: 2px; }
 
         /* 右側テーブル */
         .scroll-wrap { flex: 1; overflow-y: auto; border: 1px solid var(--border); border-radius: 4px; background: #fff; }
@@ -112,7 +117,7 @@
         td { padding: 6px 8px; border-bottom: 1px solid var(--border); }
 
         .summary-table th { background: #e9ecef; text-align: center; }
-        .summary-table td { text-align: center; }
+        .summary-table td { text-align: center; font-weight: 500; }
         .total-row { background: #f1f3f5; font-weight: bold; }
         .val-in { color: var(--success); font-weight: bold; }
         .val-out { color: var(--danger); font-weight: bold; }
@@ -128,10 +133,10 @@
         <div class="month-picker-container">
             <input type="month" id="view-month-picker" onchange="changeViewMonth(this.value)">
         </div>
-        <button class="sys-btn btn-backup" onclick="exportJSON()">保存</button>
+        <button class="sys-btn btn-backup" onclick="exportJSON()">バックアップ</button>
+        <button class="sys-btn btn-reset" onclick="displayDataReset()">表示データ消去</button>
         <button class="sys-btn btn-restore" onclick="triggerRestore()">復元</button>
         <input type="file" id="restore-input" style="display:none" onchange="importJSON(event)">
-        <button class="sys-btn btn-reset" onclick="displayDataReset()">消去</button>
     </div>
 </header>
 
@@ -185,7 +190,7 @@
         </div>
         <div class="sub-section">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-                <h2 id="summary-label" style="margin:0;">集計</h2>
+                <h2 id="summary-label" style="margin:0;">集計進捗</h2>
                 <button onclick="exportCSV()" style="background:var(--success); color:white; border:none; padding:8px 16px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.8rem;">Excel用CSV出力 📊</button>
             </div>
             <div class="scroll-wrap">
@@ -210,7 +215,7 @@
         depts: ['内視鏡室', '手術室', '歯科', '婦人科', '皮膚科', '外科', '形成外科', '耳鼻科', '放射線', '周産期C', '眼科', '病棟'],
         wards: ['南3', '南4', '脊椎センター', '南6', 'NICU', '東3', '人工関節センター', '東5', '中4', '中5'],
         items: ['生検', '小', '中', '大', '1000ml', 'キャッチホルム'],
-        storageKey: 'formalin_v17_final'
+        storageKey: 'formalin_v18_final'
     };
 
     let state = { date: '', type: '回収', dept: '', subDept: '', item: '', qty: 0, viewMonth: '' };
@@ -240,8 +245,7 @@
         CONFIG.wards.forEach(w => {
             const b = document.createElement('button'); b.className = 'btn'; b.innerText = w;
             b.onclick = () => {
-                state.subDept = w; document.getElementById('btn-ward-main').innerText = `病棟(${w})`; 
-                document.getElementById('btn-ward-main').classList.add('active');
+                state.subDept = w; const m = document.getElementById('btn-ward-main'); m.innerText = `病棟(${w})`; m.classList.add('active');
                 document.getElementById('ward-sub-panel').style.display = 'none';
             };
             wDiv.appendChild(b);
@@ -262,13 +266,12 @@
     function changeViewMonth(val) { state.viewMonth = val; refresh(); }
 
     function saveEntry() {
-        if (!state.dept || !state.item || state.qty === 0) return alert('内容を確認してください');
+        if (!state.dept || !state.item || state.qty === 0) return alert('入力内容を確認してください');
         if (state.dept === '病棟' && !state.subDept) return alert('病棟名を選択してください');
         const data = JSON.parse(localStorage.getItem(CONFIG.storageKey) || '[]');
         data.push({ id: Date.now(), date: state.date, dept: state.dept === '病棟' ? `病棟(${state.subDept})` : state.dept, item: state.item, type: state.type, qty: state.qty });
         localStorage.setItem(CONFIG.storageKey, JSON.stringify(data));
-        state.qty = 0; document.getElementById('qty-display').innerText = 0;
-        document.getElementById('btn-ward-main').innerText = '病棟';
+        state.qty = 0; document.getElementById('qty-display').innerText = 0; document.getElementById('btn-ward-main').innerText = '病棟';
         document.querySelectorAll('.btn-dept, .btn-item').forEach(b => b.classList.remove('active'));
         state.dept = ''; state.subDept = ''; state.item = ''; refresh();
     }
@@ -324,10 +327,9 @@
         }
     }
 
-    // JSONバックアップ機能
     function exportJSON() {
         const data = localStorage.getItem(CONFIG.storageKey);
-        if (!data || data === '[]') return alert('保存するデータがありません');
+        if (!data || data === '[]') return alert('バックアップするデータがありません');
         const blob = new Blob([data], { type: 'application/json' });
         const l = document.createElement('a');
         l.href = URL.createObjectURL(blob);
